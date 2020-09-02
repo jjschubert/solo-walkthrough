@@ -10,4 +10,16 @@ const rejectUnauthenticated = (req, res, next) => {
   }
 };
 
-module.exports = { rejectUnauthenticated };
+const rejectNonAdmin = (req, res, next) => {
+  // check if logged in
+  if (req.user.access_level >2) {
+    // They were authorized! User may do the next thing
+    
+    next();
+  } else {
+    // failure best handled on the server. do redirect here.
+    res.sendStatus(403);
+  }
+};
+
+module.exports = { rejectUnauthenticated, rejectNonAdmin };
